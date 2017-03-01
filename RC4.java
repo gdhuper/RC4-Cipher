@@ -11,18 +11,33 @@ public class RC4 {
 		this.keys = keys;
 	}
 	
-	public void initialize()
+	public void initialize(byte[] key)
 	{
 		int[][] S = new int[16][16];
+		int[][] K = new int[16][16];
 		int val = 0;
 		for(int i = 0; i < 16; i++)
 		{
 			for(int j = 0; j < 16; j++)
 			{
 				S[i][j] = val;
+				K[i][j] = key[val % key.length];
 				val++;
 			}
 		}
+		
+				
+		int J = 0;
+		for(int i = 0; i < 16; i++)
+			{
+				for(int j = 0; i < 16; j++)
+				{
+					J = (J + S[i][j] +  K[i][j]) % 16;
+					System.out.println("i=" +i+", j=" + j + ", J=" +J);
+					swap(S, i, j, J);
+				}
+			}
+				
 		
 		for(int i = 0; i < 16; i++)
 		{
@@ -33,6 +48,14 @@ public class RC4 {
 			System.out.println();
 		}
 		
+		
+	}
+	
+	public void swap(int[][] S, int i, int j, int J)
+	{
+		int temp = S[i][j];
+		S[i][j] = S[i][J];
+		S[i][J] = temp;
 		
 	}
 	
@@ -98,26 +121,20 @@ public class RC4 {
 		}
 		
 		RC4 rc = new RC4(p, keys);
-		rc.initialize();
-		
-		
-		//For debugging	
+		rc.initialize(keys);
+
+		// For debugging
 		System.out.println("PlainText: \n" + p + "\n");
-		
+
 		System.out.print("Key: \n {");
 		for (int j = 0; j < keys.length; j++) {
-			if(j == keys.length-1)
-			{
-			System.out.print(keys[j]);
-			}
-			else
-			{
+			if (j == keys.length - 1) {
+				System.out.print(keys[j]);
+			} else {
 				System.out.print(keys[j] + ", ");
 			}
 		}
 		System.out.print("}");
-		
-	
 
 	}
 
