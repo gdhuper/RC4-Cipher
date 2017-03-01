@@ -11,11 +11,31 @@ public class RC4 {
 		this.keys = keys;
 	}
 	
-	public void initialize(byte[] keys)
+	public void initialize()
 	{
+		int[][] S = new int[16][16];
+		int val = 0;
+		for(int i = 0; i < 16; i++)
+		{
+			for(int j = 0; j < 16; j++)
+			{
+				S[i][j] = val;
+				val++;
+			}
+		}
+		
+		for(int i = 0; i < 16; i++)
+		{
+			for(int j = 0; j < 16; j++)
+			{
+				System.out.printf("%5s", S[i][j]);
+			}
+			System.out.println();
+		}
 		
 		
 	}
+	
 	
 	public void generateByteStream(int i, int j, byte[] S)
 	{
@@ -78,6 +98,7 @@ public class RC4 {
 		}
 		
 		RC4 rc = new RC4(p, keys);
+		rc.initialize();
 		
 		
 		//For debugging	
